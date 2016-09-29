@@ -1,3 +1,7 @@
+html{
+}
 body{
 	background:#64A5B2;
+	min-height:100%;
+	margin:0;
 }
