@@ -1,13 +1,12 @@
 <main>
-	<br/>
+	<br/><br/><br/><br/>
 	<h1>Welcome on Camagru !</h1>
-	<div align="center">
 	<div class="forms">
 		<h2>Sign in</h2>
 		<form method="post" action="login.php">
   		Login: <input type="text" name="name">
   		<br><br>
-  		Password: <input type="password" name="password">
+  		Password: <input type="password" name="signin_pass">
   		<br><br>
   		<input type="submit" name="submit" value="OK">
 		</form>
@@ -17,14 +16,13 @@
 		<form method="post" action="register.php">
   		Login: <input type="text" name="name">
   		<br><br>
-  		Password: <input type="password" name="email">
+  		Password: <input type="password" name="register_pass">
   		<br><br>
-  		Password confirmation: <input type="password" name="pass_confirm">
+  		Password confirmation: <input type="password" name="confirm_pass">
   		<br><br>
 		E-mail address: <input type="email" name="email">
   		<br><br>
   		<input type="submit" name="submit" value="OK">
 		</form>
-	</div>
 	</div>
 </main>
