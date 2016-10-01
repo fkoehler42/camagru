@@ -1,3 +1,7 @@
+<?php
+define('ROOT_DIR', dirname(__FILE__));
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,9 +14,9 @@
 </head>
 <body>
 	<?php
-	include('./public/header.php');
-	include('./public/main.php');
-	include('./public/footer.php');
+	include('public/header.php');
+	include('public/main.php');
+	include('public/footer.php');
 	?>
 </body>
 </html>
