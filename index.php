@@ -1,7 +1,3 @@
-<?php
-define('ROOT_DIR', dirname(__FILE__));
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +6,7 @@ define('ROOT_DIR', dirname(__FILE__));
 	<link rel="stylesheet" type="text/css" href="stylesheets/header.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/footer.css">
+	<script src="public/form_scripts.js"></script>
 	<title>Camagru</title>
 </head>
 <body>
@@ -18,5 +15,6 @@ define('ROOT_DIR', dirname(__FILE__));
 	include('public/main.php');
 	include('public/footer.php');
 	?>
+
 </body>
 </html>

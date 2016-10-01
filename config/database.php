@@ -7,8 +7,8 @@ $db_user = 'root';
 $db_pass = 'w3bs3rver';
 
 try {
-	$db_handler = new PDO($db_dsn, $db_user, $db_pass);
-	$db_handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$db = new PDO($db_dsn, $db_user, $db_pass);
+	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch (PDOException $error) {
 	echo "Database connection failed: " . $error->getMessage() . PHP_EOL;
