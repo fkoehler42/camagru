@@ -13,9 +13,9 @@ main button{
 	vertical-align:top;
 	display: table;
 	max-width: 90%;
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 10px;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 10px;
 	margin-top: 20px;
 	margin-bottom: 20px;
 	margin-left: auto;
@@ -32,6 +32,10 @@ form p{
 	color: red;
 }
 
+#form2 {
+	display:none;
+}
+
 input {
     width: 90%;
     padding: 12px 20px;
@@ -42,7 +46,7 @@ input {
     box-sizing: border-box;
 }
 
-input[type=submit] {
+input[type=submit], button {
     width: 90%;
     background-color: #4CAF50;
     color: white;
@@ -53,6 +57,15 @@ input[type=submit] {
     cursor: pointer;
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover, button:hover {
     background-color: #45a049;
+}
+
+#back {
+		width: 40%;
+		background-color: grey;
+}
+
+#back:hover {
+	background-color: #565B5A;
 }

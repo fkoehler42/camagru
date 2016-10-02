@@ -6,7 +6,6 @@
 	<link rel="stylesheet" type="text/css" href="stylesheets/header.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/footer.css">
-	<script src="public/form_scripts.js"></script>
 	<title>Camagru</title>
 </head>
 <body>
@@ -17,4 +16,5 @@
 	?>
 
 </body>
+	<script src="public/form_scripts.js"></script>
 </html>
