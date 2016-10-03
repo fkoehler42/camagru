@@ -41,12 +41,14 @@ function register_validate(evt) {
 
 	msg.style.display = "none";
 	msg.innerHTML = "";
-	if (login == "" || login_elem.validity.RangeUnderflow || login_elem.validity.RangeOverflow ||
+	if (login === "" || login_elem.validity.RangeUnderflow || login_elem.validity.RangeOverflow ||
 	((/^[a-zA-Z0-9_-]{5,30}$/).test(login) == false))
 		msg.innerHTML = "Username must be between 5 and 30 characters. Allowed characters are a-z, A-Z, 0-9, '-' and '_'";
-	else if (passwd1 == "" || passwd1_elem.validity.RangeUnderflow ||	passwd1_elem.validity.RangeOverflow ||
+	else if (passwd1 === "" || passwd1_elem.validity.RangeUnderflow ||	passwd1_elem.validity.RangeOverflow ||
 	((/^[a-zA-Z0-9_-]{8,40}$/).test(passwd1) == false))
 		msg.innerHTML = "Password must be between 8 and 30 characters. Allowed characters are a-z, A-Z, 0-9, '-' and '_'";
+	else if (passwd1.indexOf(login) !== -1)
+		msg.innerHTML = "Password must not contains your username";
 	else if (passwd1 !== passwd2)
 		msg.innerHTML = "Password fields do not match";
 	else if ((/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/).test(email) == false)
@@ -54,17 +56,15 @@ function register_validate(evt) {
 		else {
 			xhr.onreadystatechange = function() {
     		if (xhr.status == 200 && xhr.readyState == 4){
-					console.log(msg);
 					msg.innerHTML = xhr.responseText;
+					console.log(msg);
 					if (msg.innerHTML !== "")
 						msg.style.display = "block";
-				}else {
-					console.log(xhr.responseText);
 				}
 			}
 			xhr.open("POST", "public/register.php", true);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			xhr.send("login=" + login + "&passwd" + passwd1 + "&email" + email);
+			xhr.send("login=" + login + "&passwd=" + passwd1 + "&email=" + email);
 		}
 	if (msg.innerHTML !== "")
 		msg.style.display = "block";
