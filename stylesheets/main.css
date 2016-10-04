@@ -46,7 +46,7 @@ input {
     box-sizing: border-box;
 }
 
-input[type=submit], button {
+input[type=button], button {
     width: 90%;
     background-color: #4CAF50;
     color: white;
@@ -57,7 +57,7 @@ input[type=submit], button {
     cursor: pointer;
 }
 
-input[type=submit]:hover, button:hover {
+input[type=button]:hover, button:hover{
     background-color: #45a049;
 }
 
