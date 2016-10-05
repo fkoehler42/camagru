@@ -9,14 +9,15 @@ function signin_validate() {
 	var xhr = new XMLHttpRequest();
 
 	reset_msgs();
-	if (login === "" || login_elem.validity.RangeUnderflow ||
-	login_elem.validity.RangeOverflow ||
-	((/^[a-zA-Z0-9_-]{5,30}$/).test(login) == false) ||
-	passwd === "" || passwd_elem.validity.RangeUnderflow ||
-	passwd_elem.validity.RangeOverflow ||
-	((/^[a-zA-Z0-9_-]{8,40}$/).test(passwd) == false)) {
+	if (login === "" || passwd === "") {
 		msg.style.display = "block";
-		msg.innerHTML = "Invalid username/password<br/>";
+		msg.innerHTML = "Please fill all fields.<br/>";
+	}
+	else if (login_elem.validity.RangeUnderflow || login_elem.validity.RangeOverflow ||
+	((/^[a-zA-Z0-9_-]{5,30}$/).test(login) == false) ||passwd_elem.validity.RangeUnderflow ||
+	passwd_elem.validity.RangeOverflow || ((/^[a-zA-Z0-9_-]{8,40}$/).test(passwd) == false)) {
+		msg.style.display = "block";
+		msg.innerHTML = "Invalid username/password.<br/>";
 	}
 	else {
 		xhr.onreadystatechange = function() {
@@ -51,16 +52,16 @@ function register_validate() {
 	reset_msgs();
 	if (login === "" || login_elem.validity.RangeUnderflow || login_elem.validity.RangeOverflow ||
 	((/^[a-zA-Z0-9_-]{5,30}$/).test(login) == false))
-		msg.innerHTML += "Username must be between 5 and 30 characters. Allowed characters are a-z, A-Z, 0-9, '-' and '_'<br/>";
+		msg.innerHTML += "Username must be between 5 and 30 characters. Allowed characters are a-z, A-Z, 0-9, '-' and '_'.<br/>";
 	if (passwd1 === "" || passwd1_elem.validity.RangeUnderflow ||	passwd1_elem.validity.RangeOverflow ||
 	((/^[a-zA-Z0-9_-]{8,40}$/).test(passwd1) == false))
-		msg.innerHTML += "Password must be between 8 and 30 characters. Allowed characters are a-z, A-Z, 0-9, '-' and '_'<br/>";
+		msg.innerHTML += "Password must be between 8 and 30 characters. Allowed characters are a-z, A-Z, 0-9, '-' and '_'.<br/>";
 	if (passwd1.indexOf(login) !== -1)
-		msg.innerHTML += "Password must not contains your username<br/>";
+		msg.innerHTML += "Password must not contains your username.<br/>";
 	if (passwd1 !== passwd2)
-		msg.innerHTML += "Password fields do not match<br/>";
+		msg.innerHTML += "Password fields do not match.<br/>";
 	if ((/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/).test(email) == false)
-		msg.innerHTML += "Email address is invalid<br/>";
+		msg.innerHTML += "Email address is invalid.<br/>";
 	if (msg.innerHTML === "") {
 		xhr.onreadystatechange = function() {
     	if (xhr.status == 200 && xhr.readyState == 4){
@@ -68,10 +69,10 @@ function register_validate() {
 				if (msg.innerHTML !== "")
 					msg.style.display = "block";
 				else {
-					var validation_msg = document.getElementById("main_msg");
-					validation_msg.innerHTML = "Thank you for your registration. An email was sent to "+ email + ", click on link inside to confirm your account creation<br/>";
-					validation_msg.style.display = "block";
 					put_signin_form();
+					var validation_msg = document.getElementById("main_msg");
+					validation_msg.innerHTML = "Thank you for your registration. An email was sent to "+ email + ", click on link inside to activate your account.<br/>";
+					validation_msg.style.display = "block";
 				}
 			}
 		}
@@ -88,11 +89,13 @@ function put_register_form() {
 	var signin_div = document.getElementById("form1");
 	var register_link = document.getElementById("register_link");
 	var register_div = document.getElementById("form2");
+	var resetpass_div = document.getElementById("form3");
 
 	reset_msgs();
 	signin_div.style.display = "none";
 	register_link.style.display = "none";
 	register_div.style.display = "table";
+	resetpass_div.style.display = "none";
 }
 
 function put_signin_form() {
@@ -100,8 +103,24 @@ function put_signin_form() {
 	var signin_div = document.getElementById("form1");
 	var register_link = document.getElementById("register_link");
 	var register_div = document.getElementById("form2");
+	var resetpass_div = document.getElementById("form3");
 
+	reset_msgs();
 	signin_div.style.display = "table";
 	register_link.style.display = "table";
 	register_div.style.display = "none";
+	resetpass_div.style.display = "none";
+}
+
+function put_resetpass_form() {
+
+	var signin_div = document.getElementById("form1");
+	var register_link = document.getElementById("register_link");
+	var register_div = document.getElementById("form2");
+	var resetpass_div = document.getElementById("form3");
+
+	signin_div.style.display = "none";
+	register_link.style.display = "none";
+	register_div.style.display = "none";
+	resetpass_div.style.display = "table";
 }

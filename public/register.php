@@ -2,9 +2,8 @@
 
 session_start();
 
-require_once("send_mail.php");
 require_once("../config/database.php");
-$db->query("USE camagru");
+require_once("send_mail.php");
 
 $response = "";
 $login = $_POST["login"];
@@ -14,11 +13,11 @@ $email = $_POST["email"];
 $query = $db->query("SELECT COUNT(login) FROM users WHERE login = ".$db->quote($login));
 $res = $query->fetch();
 if ($res[0] > 0)
-  $response .= "Username ".$login." already exists<br/>";
+  $response .= "Username ".$login." already exists.<br/>";
 $query = $db->query("SELECT COUNT(email) FROM users WHERE email = ".$db->quote($email));
 $res = $query->fetch();
 if ($res[0] > 0)
-  $response .= "Email address ".$email." already exists<br/>";
+  $response .= "Email address ".$email." already exists.<br/>";
 if ($response !== "")
   echo ($response);
 else {
@@ -28,7 +27,7 @@ else {
                 VALUES (".$db->quote($login).", ".$db->quote($passwd).", ".$db->quote($email).", ".$db->quote($token).")");
   }
   else {
-    echo "An error occured while sending the confirmation email<br/>";
+    echo "An error occured while sending the confirmation email, please try again.<br/>If the problem persists, contact the webmaster via the 'About' page<br/>";
   }
 }
 

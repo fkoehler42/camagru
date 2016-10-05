@@ -3,10 +3,6 @@
 require('database.php');
 
 // Database structure creation via PDO instance
-
-$db->query("CREATE DATABASE IF NOT EXISTS camagru CHARACTER SET utf8;
-					USE camagru");
-
 $db->query("CREATE TABLE IF NOT EXISTS users
 					(
 						user_id INT(6) PRIMARY KEY AUTO_INCREMENT NOT NULL,

@@ -32,10 +32,6 @@ form p{
 	color: red;
 }
 
-#form2 {
-	display:none;
-}
-
 input {
     width: 90%;
     padding: 12px 20px;
@@ -57,15 +53,15 @@ input[type=button], button {
     cursor: pointer;
 }
 
-input[type=button]:hover, button:hover{
+input[type=button]:hover, button:hover {
     background-color: #45a049;
 }
 
-#back {
+.back {
 		width: 40%;
 		background-color: grey;
 }
 
-#back:hover {
+.back:hover {
 	background-color: #565B5A;
 }

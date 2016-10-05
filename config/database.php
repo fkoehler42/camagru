@@ -1,7 +1,6 @@
 <?php
 
-// PDO instantiation to initiate MySQL server connection
-
+// PDO instantiation to initiate MySQL server connection, then create db
 $db_dsn = 'mysql:host=localhost;charset=utf8';
 $db_user = 'root';
 $db_pass = 'w3bs3rver';
@@ -9,6 +8,8 @@ $db_pass = 'w3bs3rver';
 try {
 	$db = new PDO($db_dsn, $db_user, $db_pass);
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$db->query("CREATE DATABASE IF NOT EXISTS camagru CHARACTER SET utf8;
+						USE camagru");
 }
 catch (PDOException $error) {
 	echo "Database connection failed: " . $error->getMessage() . PHP_EOL;

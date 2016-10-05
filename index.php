@@ -15,6 +15,6 @@
 	include('public/footer.php');
 	?>
 	</body>
-	<script src="public/tools.js"></script>
-	<script src="public/forms_scripts.js"></script>
+	<script src="js/tools.js"></script>
+	<script src="js/forms_scripts.js"></script>
 </html>
