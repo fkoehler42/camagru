@@ -11,8 +11,8 @@ try {
 	$db->query("CREATE DATABASE IF NOT EXISTS camagru CHARACTER SET utf8;
 						USE camagru");
 }
-catch (PDOException $error) {
-	echo "Database connection failed: " . $error->getMessage() . PHP_EOL;
+catch (PDOException $e) {
+	echo "Database connection failed: " . $e->getMessage() . PHP_EOL;
 	die();
 }
 
