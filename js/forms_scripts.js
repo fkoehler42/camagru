@@ -20,13 +20,12 @@ function	signin_validate() {
 	}
 	else {
 		xhr.onreadystatechange = function() {
-	    if (xhr.status == 200 && xhr.readyState == 4){
+	    if (xhr.status == 200 && xhr.readyState == 4) {
 				msg.innerHTML = xhr.responseText;
 				if (msg.innerHTML !== "")
 					msg.style.display = "block";
-				else {
-						//put cam page
-				}
+				else
+					location.reload(true);
 			}
 		}
 			xhr.open("POST", "public/login.php", true);
@@ -128,45 +127,4 @@ function	resetpass_validate() {
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xhr.send("login=" + login + "&email=" + email);
 	}
-}
-
-function	put_register_form() {
-
-	var signin_div = document.getElementById("form1");
-	var register_link = document.getElementById("register_link");
-	var register_div = document.getElementById("form2");
-	var resetpass_div = document.getElementById("form3");
-
-	reset_msgs();
-	signin_div.style.display = "none";
-	register_link.style.display = "none";
-	register_div.style.display = "table";
-	resetpass_div.style.display = "none";
-}
-
-function	put_signin_form() {
-
-	var signin_div = document.getElementById("form1");
-	var register_link = document.getElementById("register_link");
-	var register_div = document.getElementById("form2");
-	var resetpass_div = document.getElementById("form3");
-
-	reset_msgs();
-	signin_div.style.display = "table";
-	register_link.style.display = "table";
-	register_div.style.display = "none";
-	resetpass_div.style.display = "none";
-}
-
-function	put_resetpass_form() {
-
-	var signin_div = document.getElementById("form1");
-	var register_link = document.getElementById("register_link");
-	var register_div = document.getElementById("form2");
-	var resetpass_div = document.getElementById("form3");
-
-	signin_div.style.display = "none";
-	register_link.style.display = "none";
-	register_div.style.display = "none";
-	resetpass_div.style.display = "table";
 }
