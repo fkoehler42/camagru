@@ -1,11 +1,27 @@
+window.addEventListener('load', function(ev) {
+
+  var xhr = new XMLHttpRequest();
+  var container = document.getElementById("photos_container");
+
+    xhr.onreadystatechange = function() {
+      if (xhr.status == 200 && xhr.readyState == 4) {
+        container.innerHTML += xhr.responseText;
+      }
+    }
+    xhr.open("GET", "public/load_imgs.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send();
+
+});
+
 (function() {
 
   var streaming = false,
-      video        = document.querySelector('#video'),
-      cover        = document.querySelector('#cover'),
-      canvas       = document.querySelector('#canvas'),
-      //photo        = document.querySelector('#photo'),
-      startbutton  = document.querySelector('#startbutton'),
+      video = document.querySelector('#video'),
+      cover = document.querySelector('#cover'),
+      canvas = document.createElement("canvas"),
+      container = document.getElementById("photos_container");
+      startbutton = document.querySelector('#startbutton'),
       width = 320,
       height = 0;
 
@@ -42,6 +58,7 @@
       video.setAttribute('height', height);
       canvas.setAttribute('width', width);
       canvas.setAttribute('height', height);
+      canvas.setAttribute('class', 'photos');
       streaming = true;
     }
   }, false);
@@ -52,7 +69,6 @@
     canvas.height = height;
     canvas.getContext('2d').drawImage(video, 0, 0, width, height);
     var img = canvas.toDataURL('image/png');
-    //photo.setAttribute('src', data);
     return (img);
   }
 
@@ -74,8 +90,17 @@
   }
 
   startbutton.addEventListener('click', function(ev) {
-      var img = takephoto();
-      savephoto(img);
+
+    var photo_default = document.getElementById("photo_default");
+    var photos_array = document.getElementsByClassName("photos");
+
+    container.insertBefore(canvas, photos_array[0]);
+    if (photo_default !== null)
+      photo_default.parentNode.removeChild(photo_default);
+    var img = takephoto();
+    savephoto(img);
+    canvas = document.createElement("canvas");
+    canvas.setAttribute("class", "photos");
     ev.preventDefault();
   }, false);
 
