@@ -1,3 +1,32 @@
+function delete_img(img) {
+
+  if (confirm("Are you sure you want to delete this image ?")) {
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.status == 200 && xhr.readyState == 4) {
+        if (xhr.responseText !== "")
+          alert(xhr.responseText);
+        else {
+          img.parentNode.removeChild(img);
+          if (document.getElementsByClassName("photos").length === 0) {
+            var photo_default = document.createElement("img");
+            photo_default.setAttribute("id", "photo_default");
+            photo_default.setAttribute("class", "photos");
+            photo_default.setAttribute("src", "images/icons/photo_default.jpg");
+            photo_default.setAttribute("width", 320);
+            photo_default.setAttribute("height", 240);
+            document.getElementById("photos_container").appendChild(photo_default);
+          }
+        }
+      }
+    }
+      xhr.open("POST", "public/delete_img.php", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.send("img=" + img.getAttribute("src"));
+  }
+}
+
 window.addEventListener('load', function(ev) {
 
   var xhr = new XMLHttpRequest();
@@ -50,15 +79,22 @@ window.addEventListener('load', function(ev) {
     }
   );
 
+  function set_img_attributes(img) {
+
+    img.setAttribute('width', width);
+    img.setAttribute('height', height);
+    img.setAttribute('class', 'photos');
+    img.setAttribute('onclick', 'delete_img(this)');
+    img.setAttribute('style', 'cursor:pointer');
+  }
+
   video.addEventListener('canplay', function(ev) {
 
     if (!streaming) {
       height = video.videoHeight / (video.videoWidth/width);
       video.setAttribute('width', width);
       video.setAttribute('height', height);
-      canvas.setAttribute('width', width);
-      canvas.setAttribute('height', height);
-      canvas.setAttribute('class', 'photos');
+      set_img_attributes(canvas);
       streaming = true;
     }
   }, false);
@@ -72,21 +108,26 @@ window.addEventListener('load', function(ev) {
     return (img);
   }
 
-  function savephoto(img) {
+  function savephoto(canvas, canvas_data) {
 
     var xhr = new XMLHttpRequest();
-    if (img !== "") {
+    if (canvas_data !== "") {
   		xhr.onreadystatechange = function() {
         if (xhr.status == 200 && xhr.readyState == 4) {
-          console.log(xhr.responseText);
+          if (xhr.responseText.indexOf("Error") !== -1)
+            alert(xhr.responseText);
+          else
+            canvas.setAttribute("src", xhr.responseText);
         }
       }
       xhr.open("POST", "public/store_img.php", true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.send("img=" + img);
+      xhr.send("img=" + canvas_data);
   	}
-    else
+    else {
       console.log("No picture data received");
+      return (1);
+    }
   }
 
   startbutton.addEventListener('click', function(ev) {
@@ -98,9 +139,9 @@ window.addEventListener('load', function(ev) {
     if (photo_default !== null)
       photo_default.parentNode.removeChild(photo_default);
     var img = takephoto();
-    savephoto(img);
+    savephoto(canvas, img);
     canvas = document.createElement("canvas");
-    canvas.setAttribute("class", "photos");
+    set_img_attributes(canvas);
     ev.preventDefault();
   }, false);
 
