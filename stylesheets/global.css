@@ -1,6 +1,13 @@
 html{
 }
+
 body{
 	background:#64A5B2;
 	margin:0;
+}
+
+.error_msg {
+	margin: 0;
+	color: red;
+	display: none;
 }

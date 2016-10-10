@@ -38,3 +38,31 @@
   border: 3px solid #b0b0b0;
   margin: 5px 0 5px 0;
 }
+
+#upload_img {
+  display:inline-block;
+}
+
+#upload_img button {
+  width:auto;
+  margin-left: 0;
+}
+
+#upload_img label {
+  display:table;
+  margin: auto;
+  margin-bottom: -5px;
+  padding-top: 10px;
+}
+
+#img_file {
+  width: 350px;
+  margin-right: 0;
+}
+
+#video_img {
+  display:none;
+  margin:auto;
+  max-width: 320px;
+  max-height: 240px;
+}

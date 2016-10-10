@@ -1,3 +1,52 @@
+function isImage(file) {
+
+  var dot_index;
+  if ((dot_index = file.lastIndexOf(".")) < 1)
+    return (false);
+  var file_extension = file.substr(dot_index + 1);
+  switch (file_extension.toLowerCase()) {
+    case "jpg":
+    case "jpeg":
+    case "png":
+    case "gif":
+      return (true);
+  }
+  return (false);
+}
+
+document.getElementById("send_img").addEventListener("click", function(ev) {
+
+  var file_input = document.getElementById("img_file");
+  var img = document.getElementById("video_img");
+  var video = document.getElementById("video");
+  var msg = document.getElementById("upload_msg");
+
+  if (msg.innerHTML !== "") {
+    msg.innerHTML = "";
+    msg.style.display = "none";
+  }
+  if (file_input.value === "")
+    msg.innerHTML = "Please choose a file.<br/>"
+  else if (isImage(file_input.value) === false)
+    msg.innerHTML = "Invalid image file.<br/>"
+  else if (file_input.files[0].size > 4096000) {
+    msg.innerHTML = file_input.files[0].size / 1000;
+  }
+  else {
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+      var track = video_stream.getTracks()[0];
+      track.stop();
+      video.style.display = "none";
+      img.setAttribute("src", ev.target.result);
+      img.style.display = "block";
+    }
+    reader.readAsDataURL(file_input.files[0]);
+  }
+  if (msg.innerHTML !== "")
+    msg.style.display = "block";
+});
+
 function delete_img(img) {
 
   if (confirm("Are you sure you want to delete this image ?")) {
@@ -66,6 +115,7 @@ window.addEventListener('load', function(ev) {
     },
     function(stream) {
 
+      video_stream = stream;
       if (navigator.mozGetUserMedia) {
         video.mozSrcObject = stream;
       } else {
