@@ -8,7 +8,7 @@
   			<input id="passwd" type="password" placeholder="Password" minlength="8" maxlength="30" required>
 				<p id="signin_msg" class="error_msg"></p>
   			<input id="signin_submit" type="button" value="OK" onclick="signin_validate()">
-			<a href="#" onclick="put_resetpass_form()">Forgot password ?</a>
+			<a href="javascript:put_resetpass_form()">Forgot password ?</a>
 		</form>
 	</div>
 	<div id="register_link" class="forms">

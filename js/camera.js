@@ -16,10 +16,11 @@ function isImage(file) {
 
 document.getElementById("send_img").addEventListener("click", function(ev) {
 
-  var file_input = document.getElementById("img_file");
-  var img = document.getElementById("video_img");
-  var video = document.getElementById("video");
-  var msg = document.getElementById("upload_msg");
+  var file_input = document.getElementById("img_file"),
+      img = document.getElementById("video_img"),
+      video = document.getElementById("video"),
+      msg = document.getElementById("upload_msg");
+      back2cam = document.getElementById("back2cam");
 
   if (msg.innerHTML !== "") {
     msg.innerHTML = "";
@@ -28,20 +29,26 @@ document.getElementById("send_img").addEventListener("click", function(ev) {
   if (file_input.value === "")
     msg.innerHTML = "Please choose a file.<br/>"
   else if (isImage(file_input.value) === false)
-    msg.innerHTML = "Invalid image file.<br/>"
+    msg.innerHTML = "Invalid file.<br/>"
   else if (file_input.files[0].size > 4096000) {
-    msg.innerHTML = file_input.files[0].size / 1000;
+    msg.innerHTML = "File size limit exceeded.<br/>";
   }
   else {
     var reader = new FileReader();
     reader.onload = function (ev) {
-      var track = video_stream.getTracks()[0];
-      track.stop();
+      if (streaming === true) {
+        var track = video_stream.getTracks()[0];
+      //  track.stop(); *pause method is easier to use to launch back the cam *
+        video.pause();
+        streaming = false;
+        back2cam.style.display = "block";
+      }
       video.style.display = "none";
-      img.setAttribute("src", ev.target.result);
       img.style.display = "block";
+      img.setAttribute("src", ev.target.result);
     }
     reader.readAsDataURL(file_input.files[0]);
+    file_input.value = null;
   }
   if (msg.innerHTML !== "")
     msg.style.display = "block";
@@ -78,30 +85,39 @@ function delete_img(img) {
 
 window.addEventListener('load', function(ev) {
 
-  var xhr = new XMLHttpRequest();
-  var container = document.getElementById("photos_container");
+  var xhr = new XMLHttpRequest(),
+      container = document.getElementById("photos_container"),
+      video = document.getElementById("video");
+      video_img = document.getElementById("video_img"),
 
-    xhr.onreadystatechange = function() {
-      if (xhr.status == 200 && xhr.readyState == 4) {
-        container.innerHTML += xhr.responseText;
-      }
+  back2cam.style.display = "block";
+  xhr.onreadystatechange = function() {
+    if (xhr.status == 200 && xhr.readyState == 4) {
+      container.innerHTML += xhr.responseText;
     }
-    xhr.open("GET", "public/load_imgs.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send();
-
+  }
+  xhr.open("GET", "public/load_imgs.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send();
+  load_cam();
 });
 
-(function() {
+  function reload_cam() {
+    video.style.display = "inline";
+    video_img.style.display = "none";
+    video.play();
+  }
 
-  var streaming = false,
-      video = document.querySelector('#video'),
+  function load_cam() {
+
+  streaming = false;
+  var video = document.querySelector('#video'),
       cover = document.querySelector('#cover'),
-      canvas = document.createElement("canvas"),
-      container = document.getElementById("photos_container");
+      container = document.querySelector('#photos_container');
       startbutton = document.querySelector('#startbutton'),
+      back2cam = document.querySelector('#back2cam');
       width = 320,
-      height = 0;
+      height = 240;
 
   navigator.getMedia = ( navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
@@ -144,17 +160,23 @@ window.addEventListener('load', function(ev) {
       height = video.videoHeight / (video.videoWidth/width);
       video.setAttribute('width', width);
       video.setAttribute('height', height);
-      set_img_attributes(canvas);
       streaming = true;
+      back2cam.style.display = "none";
     }
   }, false);
 
   function takephoto() {
 
-    canvas.width = width;
-    canvas.height = height;
-    canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-    var img = canvas.toDataURL('image/png');
+    var img,
+        video_img = document.getElementById("video_img");
+    if (streaming === true)
+      canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+    else {
+      canvas.setAttribute("width", video_img.width);
+      canvas.setAttribute("height", video_img.height);
+      canvas.getContext('2d').drawImage(video_img, 0, 0, video_img.width, video_img.height);
+    }
+    img = canvas.toDataURL('image/png');
     return (img);
   }
 
@@ -174,10 +196,8 @@ window.addEventListener('load', function(ev) {
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.send("img=" + canvas_data);
   	}
-    else {
+    else
       console.log("No picture data received");
-      return (1);
-    }
   }
 
   startbutton.addEventListener('click', function(ev) {
@@ -185,14 +205,14 @@ window.addEventListener('load', function(ev) {
     var photo_default = document.getElementById("photo_default");
     var photos_array = document.getElementsByClassName("photos");
 
+    canvas = document.createElement("canvas");
+    set_img_attributes(canvas);
     container.insertBefore(canvas, photos_array[0]);
     if (photo_default !== null)
       photo_default.parentNode.removeChild(photo_default);
     var img = takephoto();
     savephoto(canvas, img);
-    canvas = document.createElement("canvas");
-    set_img_attributes(canvas);
     ev.preventDefault();
   }, false);
 
-})();
+}
