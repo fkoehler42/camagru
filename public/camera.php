@@ -3,6 +3,7 @@
     <h2>Take a shot !</h2>
     <video id="video" poster="http://placekitten.com/g/320/261"></video>
     <img id="video_img" src="#" alt="">
+    <div id="filters_container"></div>
     <button id="startbutton">Snap it</button><br/>
     <div id="upload_img">
       <label for="img_file">Upload an image (JPEG/JPG/PNG/GIF format - Max 4 Mo) :</label>

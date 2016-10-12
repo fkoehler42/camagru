@@ -1,3 +1,41 @@
+window.addEventListener('load', function(ev) {
+
+  var xhr = new XMLHttpRequest(),
+      photos_container = document.getElementById("photos_container"),
+      filters_container = document.getElementById("filters_container"),
+      video = document.getElementById("video");
+      video_img = document.getElementById("video_img"),
+
+  back2cam.style.display = "block";
+  xhr.onreadystatechange = function() {
+    if (xhr.status == 200 && xhr.readyState == 4) {
+      var imgs = xhr.responseText.split("\n");
+      photos_container.innerHTML += imgs[0];
+      filters_container.innerHTML += imgs[1];
+    }
+  }
+  xhr.open("GET", "public/load_imgs.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send();
+  load_cam();
+});
+
+
+function add_filter(filter) {
+  var xhr = new XMLHttpRequest(),
+      img = document.getElementById("video_img");
+
+  xhr.onreadystatechange = function() {
+    if (xhr.status == 200 && xhr.readyState == 4) {
+      img.src = xhr.responseText;
+    }
+  }
+  xhr.open("POST", "public/merge_imgs.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send("src=" + filter.src + "&dst=" + uploaded_img_save);
+}
+
+
 function isImage(file) {
 
   var dot_index;
@@ -13,6 +51,7 @@ function isImage(file) {
   }
   return (false);
 }
+
 
 document.getElementById("send_img").addEventListener("click", function(ev) {
 
@@ -37,8 +76,8 @@ document.getElementById("send_img").addEventListener("click", function(ev) {
     var reader = new FileReader();
     reader.onload = function (ev) {
       if (streaming === true) {
-        var track = video_stream.getTracks()[0];
-      //  track.stop(); *pause method is easier to use to launch back the cam *
+      //  var track = video_stream.getTracks()[0];
+      //  track.stop(); ** pause() method is easier to use to launch back the cam later**
         video.pause();
         streaming = false;
         back2cam.style.display = "block";
@@ -46,6 +85,7 @@ document.getElementById("send_img").addEventListener("click", function(ev) {
       video.style.display = "none";
       img.style.display = "block";
       img.setAttribute("src", ev.target.result);
+      uploaded_img_save = img.src;
     }
     reader.readAsDataURL(file_input.files[0]);
     file_input.value = null;
@@ -53,6 +93,7 @@ document.getElementById("send_img").addEventListener("click", function(ev) {
   if (msg.innerHTML !== "")
     msg.style.display = "block";
 });
+
 
 function delete_img(img) {
 
@@ -70,8 +111,8 @@ function delete_img(img) {
             photo_default.setAttribute("id", "photo_default");
             photo_default.setAttribute("class", "photos");
             photo_default.setAttribute("src", "images/icons/photo_default.jpg");
-            photo_default.setAttribute("width", 320);
-            photo_default.setAttribute("height", 240);
+            photo_default.setAttribute("width", 640);
+            photo_default.setAttribute("height", 480);
             document.getElementById("photos_container").appendChild(photo_default);
           }
         }
@@ -83,30 +124,13 @@ function delete_img(img) {
   }
 }
 
-window.addEventListener('load', function(ev) {
-
-  var xhr = new XMLHttpRequest(),
-      container = document.getElementById("photos_container"),
-      video = document.getElementById("video");
-      video_img = document.getElementById("video_img"),
-
-  back2cam.style.display = "block";
-  xhr.onreadystatechange = function() {
-    if (xhr.status == 200 && xhr.readyState == 4) {
-      container.innerHTML += xhr.responseText;
-    }
-  }
-  xhr.open("GET", "public/load_imgs.php", true);
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.send();
-  load_cam();
-});
 
   function reload_cam() {
     video.style.display = "inline";
     video_img.style.display = "none";
     video.play();
   }
+
 
   function load_cam() {
 
@@ -116,8 +140,8 @@ window.addEventListener('load', function(ev) {
       container = document.querySelector('#photos_container');
       startbutton = document.querySelector('#startbutton'),
       back2cam = document.querySelector('#back2cam');
-      width = 320,
-      height = 240;
+      width = 640,
+      height = 480;
 
   navigator.getMedia = ( navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
