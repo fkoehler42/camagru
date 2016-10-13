@@ -11,7 +11,7 @@ $filter = $_POST['src'];
 $img = $_POST['dst'];
 
 if (!isset($filter) || !isset($img)) {
-  console.log("Datas are missing ");
+  //http_response_code();
   die();
 }
 $start = strrpos($filter, "/");
@@ -32,7 +32,7 @@ $src_height = imagesy($src);
 $dst_width = imagesx($dst);
 $dst_height = imagesy($dst);
 
-imagecopyresized($dst, $src, $dst_width * 0.33, $dst_height * 0.33, 0, 0, $dst_width / 2, $dst_height / 2, $src_width, $src_height);
+imagecopyresampled($dst, $src, $dst_width * 0.33, $dst_height * 0.33, 0, 0, $dst_width / 2, $dst_height / 2, $src_width, $src_height);
 
 ob_start();
 switch ($img_type) {
@@ -53,4 +53,5 @@ imagedestroy($dst);
 $data = ob_get_clean();
 $final_img = base64_encode($data);
 echo ("data:image/".$img_type.";base64,".$final_img);
+
 ?>

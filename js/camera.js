@@ -24,15 +24,21 @@ window.addEventListener('load', function(ev) {
 function add_filter(filter) {
   var xhr = new XMLHttpRequest(),
       img = document.getElementById("video_img");
+      video = document.getElementById("video");
 
   xhr.onreadystatechange = function() {
     if (xhr.status == 200 && xhr.readyState == 4) {
-      img.src = xhr.responseText;
+      if (streaming === true) {
+        img.style.display = "block";
+        img.src = xhr.responseText;
+      }
+      else
+        img.src = xhr.responseText;
     }
   }
   xhr.open("POST", "public/merge_imgs.php", true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.send("src=" + filter.src + "&dst=" + uploaded_img_save);
+  xhr.send("src=" + filter.src);
 }
 
 
