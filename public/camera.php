@@ -1,9 +1,10 @@
-<div id="camera">
-  <div id="view">
+<main>
+  <div id="camera">
+    <div id="view">
     <h2>Take a shot !</h2>
-    <video id="video" poster="http://placekitten.com/g/320/261"></video>
+    <canvas id="filter_canvas"></canvas>
+    <video id="video" style="display: inherit" poster="images/icons/cam_default.jpg"></video>
     <img id="video_img" src="#" alt="">
-    <div id="filters_container"></div>
     <button id="startbutton">Snap it</button><br/>
     <div id="upload_img">
       <label for="img_file">Upload an image (JPEG/JPG/PNG/GIF format - Max 4 Mo) :</label>
@@ -13,8 +14,10 @@
       <p id="upload_msg" class="error_msg"></p>
       <a id="back2cam" href="javascript:reload_cam()" style="display: none">Switch to the camera view</a>
     </div>
+    <div id="filters_container"></div>
+    </div>
+    <div id="photos_container">
+      <h2>Saved pictures</h2>
+    </div>
   </div>
-  <div id="photos_container">
-    <h2>Saved pictures</h2>
-  </div>
-</div>
+</main>

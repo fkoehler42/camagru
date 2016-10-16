@@ -1,8 +1,4 @@
 #camera {
-}
-
-#view {
-  text-align:center;
   display:inline-block;
   vertical-align:top;
   border-radius: 5px;
@@ -10,9 +6,16 @@
   padding: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
-  margin-right: auto;
-  margin-left: 2.5%;
-  max-width: 95%;
+  width: 95%;
+}
+
+#view {
+  float:left;
+}
+
+#filter_canvas {
+  position: absolute;
+  display:inherit;
 }
 
 #photos_container {
