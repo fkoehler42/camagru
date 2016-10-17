@@ -9,7 +9,6 @@ window.addEventListener('load', function(ev) {
       g_filter_set = 0;
 
   startbutton.setAttribute("style", "background-color: red");
-  back2cam.style.display = "block";
   xhr.onreadystatechange = function() {
     if (xhr.status == 200 && xhr.readyState == 4) {
       var imgs = xhr.responseText.split("\n");
@@ -24,19 +23,30 @@ window.addEventListener('load', function(ev) {
 });
 
 
+function get_resize_coef(src, dst) {
+
+  var coef = 1.00;
+  while (((src.naturalWidth * coef) > (dst.width / 2)) &&
+        ((src.naturalHeight * coef) > (dst.height / 2)))
+    coef = coef - 0.05;
+  return (coef);
+}
+
+
 function add_filter(filter) {
 
   var draw = new Image(),
       filter_canvas = document.getElementById("filter_canvas"),
       ctx = filter_canvas.getContext("2d");
       dst = streaming === true ? document.getElementById("video") :
-                                    document.getElementById("video_img"),
-      width = dst.width / 3,
-      height = dst.height / 3;
+      document.getElementById("video_img"),
+      coef = get_resize_coef(filter, dst);
+
   ctx.clearRect(0, 0, filter_canvas.width, filter_canvas.height);
   draw.src = filter.src;
   draw.onload = function () {
-    ctx.drawImage(draw, width, height, width, height);
+    ctx.drawImage(draw, dst.width / 3, dst.height / 3,
+    filter.naturalWidth * coef, filter.naturalHeight * coef);
     document.getElementById("startbutton").removeAttribute("style");
     g_filter_set = 1;
   };
@@ -60,7 +70,7 @@ function isImage(file) {
 }
 
 
-function reset_canvas(src) {
+function clear_filter_display(src) {
 
   var filter_canvas = document.getElementById("filter_canvas"),
       ctx = filter_canvas.getContext("2d");
@@ -78,8 +88,8 @@ document.getElementById("send_img").addEventListener("click", function(ev) {
   var file_input = document.getElementById("img_file"),
       img = document.getElementById("video_img"),
       video = document.getElementById("video"),
-      msg = document.getElementById("upload_msg");
-      back2cam = document.getElementById("back2cam");
+      msg = document.getElementById("upload_msg"),
+      back2cam = document.getElementById("back2cam"),
       filter_canvas = document.getElementById("filter_canvas");
 
   if (msg.innerHTML !== "") {
@@ -95,18 +105,18 @@ document.getElementById("send_img").addEventListener("click", function(ev) {
   }
   else {
     var reader = new FileReader();
-    reader.onload = function (ev) {
+    reader.onloadend = function (ev) {
+      img.setAttribute("src", ev.target.result);
       if (streaming === true) {
       //  var track = video_stream.getTracks()[0];
       //  track.stop(); ** pause() method is easier to use to launch back the cam later**
         video.pause();
         streaming = false;
-        back2cam.style.display = "block";
       }
+      back2cam.style.display = "block";
       video.style.display = "none";
       img.style.display = "inherit";
-      img.setAttribute("src", ev.target.result);
-      reset_canvas(img);
+      clear_filter_display(img);
     }
     reader.readAsDataURL(file_input.files[0]);
     file_input.value = null;
@@ -124,7 +134,7 @@ function delete_img(img) {
     xhr.onreadystatechange = function() {
       if (xhr.status == 200 && xhr.readyState == 4) {
         if (xhr.responseText !== "")
-          alert(xhr.responseText);
+          console.log(xhr.responseText);
         else {
           img.parentNode.removeChild(img);
           if (document.getElementsByClassName("photos").length === 0) {
@@ -132,8 +142,8 @@ function delete_img(img) {
             photo_default.setAttribute("id", "photo_default");
             photo_default.setAttribute("class", "photos");
             photo_default.setAttribute("src", "images/icons/photo_default.jpg");
-            photo_default.setAttribute("width", g_width);
-            photo_default.setAttribute("height", g_height);
+            photo_default.setAttribute("width", 320);
+            photo_default.setAttribute("height", 240);
             document.getElementById("photos_container").appendChild(photo_default);
           }
         }
@@ -149,7 +159,7 @@ function delete_img(img) {
   function reload_cam() {
     video.style.display = "inherit";
     video_img.style.display = "none";
-    reset_canvas(video);
+    clear_filter_display(video);
     video.play();
   }
 
@@ -159,12 +169,16 @@ function delete_img(img) {
   streaming = false;
   var video = document.querySelector('#video'),
       cover = document.querySelector('#cover'),
-      container = document.querySelector('#photos_container');
+      container = document.querySelector('#photos_container'),
       startbutton = document.querySelector('#startbutton'),
-      back2cam = document.querySelector('#back2cam');
-      filter_canvas = document.querySelector('#filter_canvas');
+      back2cam = document.querySelector('#back2cam'),
+      canvas = document.createElement("canvas"),
+      filter_canvas = document.querySelector('#filter_canvas'),
       g_width = 640,
       g_height = 480;
+
+  canvas.setAttribute("width", g_width);
+  canvas.setAttribute("height", g_height);
 
   navigator.getMedia = ( navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
@@ -178,7 +192,7 @@ function delete_img(img) {
     },
     function(stream) {
 
-      video_stream = stream;
+      video_stream = stream; //a supprimer si methode utilisée == pause()
       if (navigator.mozGetUserMedia) {
         video.mozSrcObject = stream;
       } else {
@@ -194,8 +208,6 @@ function delete_img(img) {
 
   function set_img_attributes(img) {
 
-    img.setAttribute('width', g_width);
-    img.setAttribute('height', g_height);
     img.setAttribute('class', 'photos');
     img.setAttribute('onclick', 'delete_img(this)');
     img.setAttribute('style', 'cursor:pointer');
@@ -218,54 +230,56 @@ function delete_img(img) {
 
     var img,
         video_img = document.getElementById("video_img");
-    if (streaming === true)
-      canvas.getContext('2d').drawImage(video, 0, 0, g_width, g_height);
-    else {
-      canvas.setAttribute("width", video_img.width);
-      canvas.setAttribute("height", video_img.height);
-      canvas.getContext('2d').drawImage(video_img, 0, 0, video_img.width, video_img.height);
-    }
+    canvas.getContext('2d').drawImage(video, 0, 0, g_width, g_height);
     img = canvas.toDataURL('image/png');
     return (img);
   }
 
-  function savephoto(canvas, canvas_data) {
+  function save_and_display_photo(img_data, filter_data) {
 
-    var xhr = new XMLHttpRequest();
-    if (canvas_data !== "") {
+    var xhr = new XMLHttpRequest(),
+        photos_array = document.getElementsByClassName("photos");
+
+    if (img_data !== "" && filter_data !== "") {
   		xhr.onreadystatechange = function() {
         if (xhr.status == 200 && xhr.readyState == 4) {
-          if (xhr.responseText.indexOf("Error") !== -1)
-            alert(xhr.responseText);
+          if (xhr.responseText.indexOf("Error") === -1) {
+            var photo = document.createElement("img");
+            set_img_attributes(photo);
+            photo.src = xhr.responseText;
+            container.insertBefore(photo, photos_array[0]);
+          }
           else
-            canvas.setAttribute("src", xhr.responseText);
+            console.log(xhr.responseText);
         }
       }
       xhr.open("POST", "public/store_img.php", true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.send("img=" + canvas_data);
+      xhr.send("img=" + img_data + "&filter=" + filter_data);
   	}
     else
-      console.log("No picture data received");
+      console.log("Data missing to save the photo");
   }
 
   startbutton.addEventListener('click', function(ev) {
 
-    var photo_default = document.getElementById("photo_default"),
-        photos_array = document.getElementsByClassName("photos");
+    var img,
+        filter = document.getElementById("filter_canvas"),
+        photo_default = document.getElementById("photo_default");
 
     if (g_filter_set === 0) {
       alert("You must choose a picture before taking a photo");
       return ;
     }
-    canvas = document.createElement("canvas");
-    set_img_attributes(canvas);
-    container.insertBefore(canvas, photos_array[0]);
     if (photo_default !== null)
       photo_default.parentNode.removeChild(photo_default);
-    var img = takephoto(canvas);
-    savephoto(canvas, img);
+    if (streaming === true) {
+      img = takephoto(canvas);
+      canvas.getContext("2d").clearRect(0, 0, g_width, g_height);
+    }
+    else
+      img = document.getElementById("video_img").src;
+    save_and_display_photo(img, filter.toDataURL("image/png"));
     ev.preventDefault();
   }, false);
-
 }
