@@ -6,6 +6,17 @@ body{
 	margin:0;
 }
 
+.main_container {
+  display:inline-block;
+  vertical-align:top;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 95%;
+}
+
 .error_msg {
 	margin: 0;
 	color: red;

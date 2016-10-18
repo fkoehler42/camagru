@@ -13,14 +13,14 @@
 	<body>
 	<?php
 		include('public/header.php');
+		include('public/footer.php');
 		if (isset($_SESSION['logged'])) {
 			include('public/camera.php');
 			echo "<script src='js/camera.js'></script>";
 		} else {
 			include('public/main.php');
-			echo "<script src='js/tools.js'></script><script src='js/forms_scripts.js'></script>";
+			echo "<script src='js/forms.js'></script><script src='js/tools.js'></script>";
 		}
-		include('public/footer.php');
 	?>
 	</body>
 </html>

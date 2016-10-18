@@ -11,7 +11,7 @@ window.addEventListener('load', function(ev) {
   startbutton.setAttribute("style", "background-color: red");
   xhr.onreadystatechange = function() {
     if (xhr.status == 200 && xhr.readyState == 4) {
-      var imgs = xhr.responseText.split("\n");
+      var imgs = xhr.responseText.split("\0");
       photos_container.innerHTML += imgs[0];
       filters_container.innerHTML += imgs[1];
     }
@@ -26,26 +26,32 @@ window.addEventListener('load', function(ev) {
 function get_resize_coef(src, dst) {
 
   var coef = 1.00;
-  while (((src.naturalWidth * coef) > (dst.width / 2)) &&
-        ((src.naturalHeight * coef) > (dst.height / 2)))
-    coef = coef - 0.05;
+  while (((src.naturalWidth * coef) > (dst.width / 3)) ||
+        ((src.naturalHeight * coef) > (dst.height / 3)))
+    coef = coef - 0.02;
   return (coef);
 }
 
 
 function add_filter(filter) {
 
+  if (streaming === false && video_img.src === ""){
+    alert("Launch the camera or upload an image before choosing a picture");
+    return;
+  }
   var draw = new Image(),
       filter_canvas = document.getElementById("filter_canvas"),
       ctx = filter_canvas.getContext("2d");
-      dst = streaming === true ? document.getElementById("video") :
+      src = streaming === true ? document.getElementById("video") :
       document.getElementById("video_img"),
-      coef = get_resize_coef(filter, dst);
+      coef = get_resize_coef(filter, src);
 
   ctx.clearRect(0, 0, filter_canvas.width, filter_canvas.height);
+  filter_canvas.setAttribute('width', src.width);
+  filter_canvas.setAttribute('height', src.height);
   draw.src = filter.src;
   draw.onload = function () {
-    ctx.drawImage(draw, dst.width / 3, dst.height / 3,
+    ctx.drawImage(draw, src.width / 3, src.height / 3,
     filter.naturalWidth * coef, filter.naturalHeight * coef);
     document.getElementById("startbutton").removeAttribute("style");
     g_filter_set = 1;
@@ -77,8 +83,8 @@ function clear_filter_display(src) {
 
   startbutton.setAttribute("style", "background-color: red");
   ctx.clearRect(0, 0, filter_canvas.width, filter_canvas.height);
-  filter_canvas.setAttribute('width', src.width);
-  filter_canvas.setAttribute('height', src.height);
+  filter_canvas.removeAttribute("width");
+  filter_canvas.removeAttribute("height");
   g_filter_set = 0;
 }
 
@@ -159,6 +165,7 @@ function delete_img(img) {
   function reload_cam() {
     video.style.display = "inherit";
     video_img.style.display = "none";
+    video_img.src = "";
     clear_filter_display(video);
     video.play();
   }

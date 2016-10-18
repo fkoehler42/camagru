@@ -1,21 +1,16 @@
-#camera {
-  display:inline-block;
-  vertical-align:top;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 10px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 95%;
-}
-
 #view {
   float:left;
+  margin-top: 10px
 }
 
 #filter_canvas {
   position: absolute;
   display:inherit;
+  padding: 3px;
+}
+
+#startbutton {
+  margin: 2px;
 }
 
 #photos_container {
@@ -23,8 +18,7 @@
   display:inline-block;
   vertical-align:top;
   background-color: #f2f2f2;
-  padding: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 20px;
   margin-left: auto;
   margin-right: 2.5%;
@@ -38,7 +32,7 @@
   display: block;
   background-color: #fafbfc;
   border: 3px solid #b0b0b0;
-  margin: 5px 0 5px 0;
+  margin-bottom: 5px;
   max-width: 320px;
   max-height: 240px;
 }
@@ -50,7 +44,6 @@
 }
 
 .filters {
-  display: block;
   background-color: #fafbfc;
   border: 3px solid #b0b0b0;
   margin: 5px 0 5px 0;
@@ -80,9 +73,14 @@
   margin-right: 0;
 }
 
+#video {
+  border: 3px solid #b0b0b0;
+}
+
 #video_img {
   display:none;
   margin:auto;
   max-width: 640px;
   max-height: 480px;
+  border: 3px solid #b0b0b0;
 }

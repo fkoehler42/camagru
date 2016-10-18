@@ -5,10 +5,10 @@ session_start();
 require_once('../config/database.php');
 require_once('merge_imgs.php');
 
-$login = $db->quote($_SESSION['logged']);
+$user_id = $db->quote($_SESSION['logged']);
 $dir = dirname(__FILE__, 2)."/images/upload/";
 
-if ($login === "") {
+if ($user_id === "") {
   echo "Error: No user logged";
   return ;
 }
@@ -27,8 +27,8 @@ while (file_exists($file) == true) {
 if (file_put_contents($file, $img) == false)
   echo "Error: unable to create/write on file";
 else {
-  $db->query("INSERT INTO images (link, author)
-              VALUES (".$db->quote($file).", $login)");
+  $db->query("INSERT INTO images (link, author_id)
+              VALUES (".$db->quote($file).", $user_id)");
   echo ("images/upload/photo".$i.".jpeg");
 }
 ?>

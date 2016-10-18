@@ -8,7 +8,7 @@ $response = "";
 $login = $_POST["login"];
 $passwd = $db->quote(hash("whirlpool", $_POST["passwd"]));
 
-$query = $db->query("SELECT login, password, confirm_hash FROM users
+$query = $db->query("SELECT user_id, login, password, confirm_hash FROM users
                     WHERE login = ".$db->quote($login)." AND password = $passwd");
 $res = $query->fetch();
 if ($res == NULL)
@@ -18,7 +18,7 @@ else if ($res['confirm_hash'] !== "") {
               Still nothing ? You may contact the webmaster via the 'About' page.<br/>";
 }
 else
-  $_SESSION['logged'] = $login;
+  $_SESSION['logged'] = $res['user_id'];
 if ($response !== "")
   echo ($response);
 ?>

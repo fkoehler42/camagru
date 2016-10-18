@@ -1,17 +1,18 @@
 <header>
 	<ul>
-		<li><a href="camera.php">Take a picture</a></li>
-		<li><a href="gallery.php">Gallery</a></li>
-		<li><a href="about.php">About</a></li>
+	<?php
 
-		<?php
-			if (isset($_SESSION['logged']))
-				echo "<li style='float:right'><a href='public/logout.php'>Logout</a></li>";
-			else {
-				$link = "http://".$_SERVER['HTTP_HOST'].substr($_SERVER['SCRIPT_NAME'], 0, (strpos($_SERVER['SCRIPT_NAME'], "/", 1) + 1))."index.php";
-				echo "<li style='float:right'><a href='".$link."'>Sign in</a></li>";
-			}
-		?>
+	$root = "http://".$_SERVER['HTTP_HOST'].substr($_SERVER['SCRIPT_NAME'], 0, (strpos($_SERVER['SCRIPT_NAME'], "/", 1) + 1));
+	echo "
+		<li><a href='".$root."index.php'>Camera</a></li>
+		<li><a href='".$root."public/gallery.php'>Gallery</a></li>
+		<li><a href='".$root."public/about.php'>About</a></li>";
 
+		if (isset($_SESSION['logged']))
+			echo "<li style='float:right'><a href='".$root."public/logout.php'>Logout</a></li>";
+		else
+			echo "<li style='float:right'><a href='".$root."'>Sign in</a></li>";
+
+	?>
 	</ul>
 </header>
