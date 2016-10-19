@@ -41,7 +41,7 @@ $query = $db->query("SELECT link FROM images WHERE author_id = $user_id ORDER BY
 while (($res = $query->fetchColumn()) !== false) {
   $start = strrpos($res, "/");
   $img = substr($res, $start, strlen($res) - $start);
-  $response .= "<img class='photos' src='images/upload$img' onclick='delete_img(this)' style='cursor: pointer'>";
+  $response .= "<img class='photos' src='images/upload$img' onclick='delete_img(this)'>";
 }
 if ($response === "") {
   $response = "<img id='photo_default' class='photos' src='images/icons/photo_default.jpg' width='640' height='480'>";

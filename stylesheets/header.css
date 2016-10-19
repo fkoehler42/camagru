@@ -5,6 +5,7 @@ ul {
 	overflow: hidden;
 	background-color: #333;
 	width: 100%;
+	border-bottom: 1px solid #bbb;
 }
 
 li {
@@ -13,7 +14,8 @@ li {
 }
 
 li:last-child {
-		    border-right: none;
+	border-right: none;
+	border-left: 1px solid #bbb;
 }
 
 li a {

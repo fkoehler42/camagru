@@ -1,0 +1,31 @@
+.post {
+  background-color: #f2f2f2;
+  display: table;
+  margin: auto;
+  margin-bottom:6px;
+  padding: 10px;
+  width: 50%;
+  border-radius: 5px;
+}
+
+.post h3 {
+  display: inline-block;
+  margin: 6px;
+}
+
+.like {
+  max-width: 50px;
+  max-height: 50px;
+  margin: -5px;
+}
+
+.nb_likes {
+  font-size: 20px;
+  display:inline-block;
+  margin: 5px;
+}
+
+.post_actions {
+  width: auto;
+  margin: 5px;
+}
