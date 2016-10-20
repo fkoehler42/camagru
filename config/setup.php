@@ -33,6 +33,6 @@ $db->query("CREATE TABLE IF NOT EXISTS likes
 					(
 						like_id INT(6) PRIMARY KEY AUTO_INCREMENT NOT NULL,
 						img_id INT(6) NOT NULL,
-						author_id INT(6) NOT NULL,
+						author_id INT(6) NOT NULL
 					)");
 ?>

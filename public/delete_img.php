@@ -4,7 +4,7 @@ require_once('../config/database.php');
 
 $img = $_POST['img'];
 
-if ($img === null) {
+if ($img == NULL) {
   echo "Error : Unable to retrieve the image to delete";
   return ;
 }

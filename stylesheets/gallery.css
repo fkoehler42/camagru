@@ -1,28 +1,33 @@
-.post {
-  background-color: #f2f2f2;
+.publication {
+  background-color: #DEDABA;
   display: table;
   margin: auto;
-  margin-bottom:6px;
+  margin-top:7px;
+  margin-bottom:7px;
   padding: 10px;
   width: 50%;
   border-radius: 5px;
 }
 
-.post h3 {
+.publication h3 {
   display: inline-block;
   margin: 6px;
 }
 
+.gallery_photos {
+  max-width: 640px;
+  max-height: 480px;
+}
+
 .like {
-  max-width: 50px;
-  max-height: 50px;
-  margin: -5px;
+  max-width: 35px;
+  max-height: 35px;
+  cursor: pointer;
 }
 
 .nb_likes {
   font-size: 20px;
   display:inline-block;
-  margin: 5px;
 }
 
 .post_actions {

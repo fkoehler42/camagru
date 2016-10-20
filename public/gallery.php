@@ -15,12 +15,7 @@
 		include('header.php');
 		include('footer.php');
 	?>
-  <main>
-    <div id='gallery' class='main_container'>
-			<?php require_once('load_gallery.php'); ?>
-		</div>
-  </main>
-	<script src='../js/tools.js'></script>
+  <main><?php require_once('load_gallery.php'); ?></main>
 	<script src='../js/gallery.js'></script>
 	</body>
 </html>
