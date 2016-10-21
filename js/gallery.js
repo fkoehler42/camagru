@@ -58,27 +58,32 @@ function send_comment(com_button) {
   var img_id = get_img_id(com_button.id),
       com_elem = document.getElementById("comcontent_" + img_id),
       com_content = com_elem.value.trim(),
+      encoded = encodeURIComponent(com_content);
       error_msg = document.getElementById("pubmsg_" + img_id),
       xhr = new XMLHttpRequest();
-  alert(com_content);
-  if (com_content === "")
+  if (encoded === "") {
+    error_msg.innerHTML = "Your comment is empty.<br/>";
+    error_msg.style.display = "block";
     return ;
+  }
   xhr.onreadystatechange = function() {
     if (xhr.status == 200 && xhr.readyState == 4) {
       if (xhr.responseText === "")
         window.location.replace("../index.php");
-      else if (xhr.responseText !== "OK") {
+      else if (xhr.responseText.indexOf("OK_") !== 0) {
         error_msg.innerHTML = xhr.responseText;
         error_msg.style.display = "block"
       }
       else {
-        var new_com = document.createElement("p");
-        new_com.innerHTML = escape_html(com_content);
+        var com_author = xhr.responseText.substr(3),
+            new_com = document.createElement("p");
+        new_com.innerHTML = com_author + escape_html(decodeURIComponent(encoded));
         com_elem.parentNode.insertBefore(new_com, com_elem);
+        com_elem.value = "";
       }
     }
   }
   xhr.open("POST", "send_com.php", true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.send("img_id=" + img_id + "&comment=" + com_content);
+  xhr.send("img_id=" + img_id + "&comment=" + encoded);
 }

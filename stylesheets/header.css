@@ -1,11 +1,16 @@
+header {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	border-bottom: 1px solid #bbb;
+}
+
 ul {
 	list-style-type: none;
 	margin: 0;
 	padding:0;
 	overflow: hidden;
 	background-color: #333;
-	width: 100%;
-	border-bottom: 1px solid #bbb;
 }
 
 li {
