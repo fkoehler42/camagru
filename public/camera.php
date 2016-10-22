@@ -1,4 +1,5 @@
 <main>
+  <h1>Camera</h1>
   <div id="camera" class='main_container'>
     <div id="view">
       <div id="cam_container">

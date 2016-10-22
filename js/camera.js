@@ -16,7 +16,7 @@ window.addEventListener('load', function(ev) {
       filters_container.innerHTML += imgs[1];
     }
   }
-  xhr.open("GET", "public/load_imgs.php", true);
+  xhr.open("GET", "server/load_imgs.php", true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send();
   load_cam();
@@ -114,8 +114,6 @@ document.getElementById("send_img").addEventListener("click", function(ev) {
     reader.onloadend = function (ev) {
       img.setAttribute("src", ev.target.result);
       if (streaming === true) {
-      //  var track = video_stream.getTracks()[0];
-      //  track.stop(); ** pause() method is easier to use to launch back the cam later**
         video.pause();
         streaming = false;
       }
@@ -155,7 +153,7 @@ function delete_img(img) {
         }
       }
     }
-      xhr.open("POST", "public/delete_img.php", true);
+      xhr.open("POST", "server/delete_img.php", true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.send("img=" + img.getAttribute("src"));
   }
@@ -260,7 +258,7 @@ function delete_img(img) {
             console.log(xhr.responseText);
         }
       }
-      xhr.open("POST", "public/store_img.php", true);
+      xhr.open("POST", "server/store_img.php", true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.send("img=" + img_data + "&filter=" + filter_data);
   	}

@@ -9,9 +9,9 @@
 		<li><a href='".$root."public/about.php'>About</a></li>";
 
 		if (isset($_SESSION['logged']))
-			echo "<li style='float:right'><a href='".$root."public/logout.php'>Logout</a></li>";
+			echo "<li style='float:right'><a href='".$root."server/logout.php'>Logout</a></li>";
 		else
-			echo "<li style='float:right'><a href='".$root."'>Sign in</a></li>";
+			echo "<li style='float:right'><a href='".$root."'>Log in</a></li>";
 
 	?>
 	</ul>

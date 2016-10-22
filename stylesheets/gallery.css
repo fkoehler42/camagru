@@ -1,5 +1,5 @@
 .publication {
-  background-color: #DEDABA;
+  background-color: #a82424;
   width: 650px;
   margin: auto;
   margin-top:7px;
@@ -49,6 +49,8 @@
   margin: auto;
   text-align: left;
   width: 640px;
+  max-height: 150px;
+  overflow-x: auto;
   word-break: break-all;
   word-break: break-word;
 }
@@ -56,7 +58,11 @@
 .comments {
   background-color: white;
   border: 1px solid #ccc;
-  border-radius: 5px;
   margin: 1px;
   padding: 2px;
+}
+
+#see_more {
+  min-width: 200px;
+  line-height: 9px;
 }

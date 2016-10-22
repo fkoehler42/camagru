@@ -18,21 +18,21 @@
 
 require_once("../config/database.php");
 
-$error = "Please try to use again the link sent by email. If the problem persists you may contact the webmaster via the 'About' page".PHP_EOL;
+$error = "Please try to use again the link sent by email. If the problem persists, contact the webmaster via the 'About' page".PHP_EOL;
 
 if (empty($_GET['login']) || empty($_GET['token']))
-  $error = "Datas missing inside the URL.".PHP_EOL.$error;
+  $error = "Corrupted link.".PHP_EOL.$error;
 else {
   $login = $db->quote(trim($_GET['login']));
   $token = trim($_GET['token']);
   $query = $db->query("SELECT login, confirm_hash FROM users WHERE login = $login");
   $result = $query->fetch();
   if ($result == null)
-    $error = "Unrecognized username.".PHP_EOL.$error;
+    $error = "Corrupted link.".PHP_EOL.$error;
   else if ($result['confirm_hash'] === "")
     $error = "This account has already been activated.".PHP_EOL;
   else if ($result['confirm_hash'] !== $token)
-    $error = "Unrecognized confirmation link.".PHP_EOL.$error;
+    $error = "Corrupted link.".PHP_EOL.$error;
   else {
     $error = "";
     $db->query("UPDATE users SET confirm_hash = '' WHERE login = $login");

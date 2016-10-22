@@ -1,6 +1,6 @@
-function	signin_validate() {
+function	login_validate() {
 
-	var msg = document.getElementById("signin_msg");
+	var msg = document.getElementById("login_msg");
 	var login_elem = document.getElementById("login");
 	var login = login_elem.value.trim();
 	var passwd_elem = document.getElementById("passwd");
@@ -28,7 +28,7 @@ function	signin_validate() {
 					location.reload(true);
 			}
 		}
-			xhr.open("POST", "public/login.php", true);
+			xhr.open("POST", "server/login.php", true);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xhr.send("login=" + login + "&passwd=" + passwd);
 	}
@@ -73,14 +73,14 @@ function	register_validate() {
 				if (msg.innerHTML !== "")
 					msg.style.display = "block";
 				else {
-					put_signin_form();
+					put_login_form();
 					var validation_msg = document.getElementById("main_msg");
 					validation_msg.innerHTML = "Thank you for your registration. An email was sent to "+ email + ", click on link inside to activate your account.<br/>";
 					validation_msg.style.display = "block";
 				}
 			}
 		}
-		xhr.open("POST", "public/register.php", true);
+		xhr.open("POST", "server/register.php", true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.send("login=" + login + "&passwd=" + passwd1 + "&email=" + email);
 	}
@@ -116,14 +116,14 @@ function	resetpass_validate() {
 				if (msg.innerHTML !== "")
 					msg.style.display = "block";
 				else {
-					put_signin_form();
+					put_login_form();
 					var validation_msg = document.getElementById("main_msg");
 					validation_msg.innerHTML = "Your password has been reset successfully. An email was sent to "+ email + " with the new one.<br/>";
 					validation_msg.style.display = "block";
 				}
 			}
 		}
-			xhr.open("POST", "public/reset_pass.php", true);
+			xhr.open("POST", "server/reset_pass.php", true);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xhr.send("login=" + login + "&email=" + email);
 	}

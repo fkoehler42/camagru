@@ -1,6 +1,6 @@
 main{
 	margin-top: 70px;
-	margin-bottom: 70px;
+	margin-bottom: 80px;
 	text-align:center;
 }
 
@@ -30,7 +30,7 @@ form {
 	max-width: 350px;
 }
 
-input {
+input, textarea {
     width: 90%;
     padding: 12px 20px;
     margin: 10px 10px;

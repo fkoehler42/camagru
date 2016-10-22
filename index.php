@@ -8,10 +8,12 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/camera.css">
 		<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
 		<link rel="stylesheet" type="text/css" href="stylesheets/footer.css">
-		<title>Camagru</title>
-	</head>
-	<body>
-	<?php
+		<?php
+		if (isset($_SESSION['logged']))
+			echo "<title>Camagru - Camera</title>";
+		else
+			echo "<title>Camagru - Log in</title>";
+		echo "</head><body>";
 		include('public/header.php');
 		include('public/footer.php');
 		if (isset($_SESSION['logged'])) {
