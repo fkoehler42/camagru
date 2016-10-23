@@ -3,11 +3,12 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="stylesheets/global.css">
-		<link rel="stylesheet" type="text/css" href="stylesheets/header.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/banners.css">
 		<link rel="stylesheet" type="text/css" href="stylesheets/camera.css">
 		<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
-		<link rel="stylesheet" type="text/css" href="stylesheets/footer.css">
+
 		<?php
 		if (isset($_SESSION['logged']))
 			echo "<title>Camagru - Camera</title>";
@@ -24,5 +25,6 @@
 			echo "<script src='js/forms.js'></script><script src='js/tools.js'></script>";
 		}
 	?>
+
 	</body>
 </html>

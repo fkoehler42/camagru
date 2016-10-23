@@ -4,7 +4,7 @@ function contact_me() {
       email_elem = document.getElementById("contact_email"),
       email = email_elem.value.trim(),
       msg_elem = document.getElementById("contact_msg"),
-      msg = msg_elem.value.trim(),
+      msg = encodeURIComponent(msg_elem.value.trim()),
       error_msg = document.getElementById("contact_notif_msg"),
       xhr = new XMLHttpRequest();
 
@@ -27,6 +27,9 @@ function contact_me() {
         else {
           error_msg.innerHTML = "Your message has been sent to the webmaster, thank you.<br/>"
           error_msg.style.color = "green";
+          name_elem.value = "";
+          email_elem.value = "";
+          msg_elem.value = "";
         }
         error_msg.style.display = "block";
       }

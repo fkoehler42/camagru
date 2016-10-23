@@ -18,5 +18,5 @@ else {
   if (send_resetpass_mail($new_passwd, $email) == true)
     $db->query("UPDATE users SET password = $hash_passwd WHERE login = $login");
   else
-    echo "An error occured while sending the email, please try again.<br/>If the problem persists, contact the webmaster via the 'About' page<br/>";
+    echo "An error occured while sending the email, please try again.<br/>";
 }

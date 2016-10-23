@@ -27,7 +27,7 @@ else {
                 VALUES (".$db->quote($login).", ".$db->quote($passwd).", ".$db->quote($email).", ".$db->quote($token).")");
   }
   else {
-    echo "An error occured while sending the confirmation email, please try again.<br/>If the problem persists, contact the webmaster via the 'About' page<br/>";
+    echo "An error occured while sending the confirmation email, please try again.<br/>";
   }
 }
 

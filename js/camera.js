@@ -34,8 +34,7 @@ function get_resize_coef(src, dst) {
 
 
 function add_filter(filter) {
-
-  if (streaming === false && video_img.src === ""){
+  if (streaming === false && video_img.src === "") {
     alert("Launch the camera or upload an image before choosing a picture");
     return;
   }
@@ -49,6 +48,10 @@ function add_filter(filter) {
   ctx.clearRect(0, 0, filter_canvas.width, filter_canvas.height);
   filter_canvas.setAttribute('width', src.width);
   filter_canvas.setAttribute('height', src.height);
+  if (streaming === false)
+    filter_canvas.setAttribute("style", "left: " + ((646 - src.width) / 2 + 6) + "px");
+  else
+    filter_canvas.removeAttribute("style");
   draw.src = filter.src;
   draw.onload = function () {
     ctx.drawImage(draw, src.width / 3, src.height / 3,
@@ -69,7 +72,6 @@ function isImage(file) {
     case "jpg":
     case "jpeg":
     case "png":
-    case "gif":
       return (true);
   }
   return (false);
@@ -161,9 +163,12 @@ function delete_img(img) {
 
 
   function reload_cam() {
+    var back2cam = document.getElementById("back2cam");
+
     video.style.display = "inherit";
     video_img.style.display = "none";
-    video_img.src = "";
+    video_img.removeAttribute("src");
+    back2cam.style.display = "none";
     clear_filter_display(video);
     video.play();
   }
@@ -196,8 +201,6 @@ function delete_img(img) {
       audio: false
     },
     function(stream) {
-
-      video_stream = stream; //a supprimer si methode utilisée == pause()
       if (navigator.mozGetUserMedia) {
         video.mozSrcObject = stream;
       } else {

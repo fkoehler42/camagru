@@ -10,7 +10,7 @@
         <div id="filters_container"></div>
       </div>
       <div id="upload_img">
-        <label for="img_file">Upload an image (JPEG/JPG/PNG/GIF format - Max 4 Mo) :</label>
+        <label for="img_file">Upload an image (JPEG/JPG/PNG format - Max 4 Mo) :</label>
         <input type="hidden" name="MAX_FILE_SIZE" value="4194304">
         <input id="img_file" type="file" name="img_file"></input>
         <button id="send_img">Upload</button>

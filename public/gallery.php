@@ -3,11 +3,11 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="../stylesheets/global.css">
-		<link rel="stylesheet" type="text/css" href="../stylesheets/header.css">
+		<link rel="stylesheet" type="text/css" href="../stylesheets/banners.css">
 		<link rel="stylesheet" type="text/css" href="../stylesheets/main.css">
 		<link rel="stylesheet" type="text/css" href="../stylesheets/gallery.css">
-		<link rel="stylesheet" type="text/css" href="../stylesheets/footer.css">
 		<title>Camagru - Gallery</title>
 	</head>
 	<body>

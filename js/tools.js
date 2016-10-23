@@ -1,40 +1,22 @@
-function	put_register_form() {
-
-	var login_div = document.getElementById("form1");
-	var register_link = document.getElementById("register_link");
-	var register_div = document.getElementById("form2");
-	var resetpass_div = document.getElementById("form3");
-
-	reset_msgs();
-	login_div.style.display = "none";
-	register_link.style.display = "none";
-	register_div.style.display = "table";
-	resetpass_div.style.display = "none";
-}
-
 function	put_login_form() {
 
 	var login_div = document.getElementById("form1");
-	var register_link = document.getElementById("register_link");
 	var register_div = document.getElementById("form2");
 	var resetpass_div = document.getElementById("form3");
 
 	reset_msgs();
 	login_div.style.display = "table";
-	register_link.style.display = "table";
-	register_div.style.display = "none";
+	register_div.style.display = "table";
 	resetpass_div.style.display = "none";
 }
 
 function	put_resetpass_form() {
 
 	var login_div = document.getElementById("form1");
-	var register_link = document.getElementById("register_link");
 	var register_div = document.getElementById("form2");
 	var resetpass_div = document.getElementById("form3");
 
 	login_div.style.display = "none";
-	register_link.style.display = "none";
 	register_div.style.display = "none";
 	resetpass_div.style.display = "table";
 }
@@ -62,4 +44,14 @@ function reset_msgs() {
     msg4.innerHTML = "";
     msg4.style.display = "none";
   }
+}
+
+function reset_forms_inputs() {
+
+	var inputs_array = document.getElementsByTagName("input");
+
+	for (var i = 0; i < inputs_array.length; i++) {
+		if (inputs_array[i].type != "button")
+			inputs_array[i].value = "";
+	}
 }

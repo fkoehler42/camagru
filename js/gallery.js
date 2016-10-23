@@ -48,7 +48,7 @@ function add_like(like_button) {
       }
     }
   }
-  xhr.open("POST", "add_like.php", true);
+  xhr.open("POST", "../server/add_like.php", true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send("img_id=" + img_id);
 }
@@ -87,7 +87,7 @@ function send_comment(com_button) {
       }
     }
   }
-  xhr.open("POST", "send_com.php", true);
+  xhr.open("POST", "../server/send_com.php", true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send("img_id=" + img_id + "&comment=" + encoded);
 }

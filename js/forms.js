@@ -13,8 +13,8 @@ function	login_validate() {
 		msg.innerHTML = "Please fill all fields.<br/>";
 	}
 	else if (login_elem.validity.RangeUnderflow || login_elem.validity.RangeOverflow ||
-	((/^[a-zA-Z0-9_-]{5,30}$/).test(login) == false) || passwd_elem.validity.RangeUnderflow ||
-	passwd_elem.validity.RangeOverflow || ((/^[a-zA-Z0-9_-]{8,40}$/).test(passwd) == false)) {
+	((/^[a-zA-Z0-9_-]{5,20}$/).test(login) == false) || passwd_elem.validity.RangeUnderflow ||
+	passwd_elem.validity.RangeOverflow || ((/^[a-zA-Z0-9!@#$%^&*]{8,20}$/).test(passwd) == false)) {
 		msg.style.display = "block";
 		msg.innerHTML = "Invalid username/password.<br/>";
 	}
@@ -36,15 +36,15 @@ function	login_validate() {
 
 function	register_validate() {
 
-	var msg = document.getElementById("register_msg");
-	var login_elem = document.getElementById("username");
-	var login = login_elem.value.trim();
-	var passwd1_elem = document.getElementById("pass1");
-	var passwd1 = passwd1_elem.value.trim();
-	var passwd2_elem = document.getElementById("pass2");
-	var passwd2 = passwd2_elem.value.trim();
-	var	email = document.getElementById("email").value.trim();
-	var xhr = new XMLHttpRequest();
+	var msg = document.getElementById("register_msg"),
+			login_elem = document.getElementById("username"),
+			login = login_elem.value.trim(),
+			passwd1_elem = document.getElementById("pass1"),
+			passwd1 = passwd1_elem.value.trim(),
+			passwd2_elem = document.getElementById("pass2"),
+			passwd2 = passwd2_elem.value.trim(),
+			email = document.getElementById("email").value.trim(),
+			xhr = new XMLHttpRequest();
 
 	reset_msgs();
 	if (login === "" || passwd1 === "" || passwd2 === "" || email === "") {
@@ -53,11 +53,12 @@ function	register_validate() {
 		return ;
 	}
 	if (login_elem.validity.RangeUnderflow || login_elem.validity.RangeOverflow ||
-	((/^[a-zA-Z0-9_-]{5,30}$/).test(login) == false))
-		msg.innerHTML += "Username must be between 5 and 30 characters. Allowed characters are a-z, A-Z, 0-9, '-' and '_'.<br/>";
-	if (passwd1_elem.validity.RangeUnderflow ||	passwd1_elem.validity.RangeOverflow ||
-	((/^[a-zA-Z0-9_-]{8,40}$/).test(passwd1) == false))
-		msg.innerHTML += "Password must be between 8 and 30 characters. Allowed characters are a-z, A-Z, 0-9, '-' and '_'.<br/>";
+	((/^[a-zA-Z0-9_-]{5,20}$/).test(login) == false))
+		msg.innerHTML += "Username must contains at least 5 characters. Allowed characters : a-z, A-Z, 0-9, '-' and '_'.<br/>";
+	if (passwd1_elem.validity.RangeUnderflow || passwd1_elem.validity.RangeOverflow)
+	 	msg.innerHTML += "Password must contains between 8 and 20 characters.<br/>";
+	if (((/^[a-zA-Z0-9!@#$%^&*]{8,20}$/).test(passwd1) == false))
+		msg.innerHTML += "Invalid password, special characters allowed are [!@#$%^&*].<br/>";
 	if (passwd1.indexOf(login) !== -1)
 		msg.innerHTML += "Password must not contains your username.<br/>";
 	if (passwd1 !== passwd2)
@@ -73,9 +74,10 @@ function	register_validate() {
 				if (msg.innerHTML !== "")
 					msg.style.display = "block";
 				else {
+					reset_forms_inputs();
 					put_login_form();
 					var validation_msg = document.getElementById("main_msg");
-					validation_msg.innerHTML = "Thank you for your registration. An email was sent to "+ email + ", click on link inside to activate your account.<br/>";
+					validation_msg.innerHTML = "Thank you for your registration. A confirmation email has been sent to "+ email + ".<br/>";
 					validation_msg.style.display = "block";
 				}
 			}
@@ -101,7 +103,7 @@ function	resetpass_validate() {
 		return ;
 	}
 	if (login_elem.validity.RangeUnderflow || login_elem.validity.RangeOverflow ||
-	((/^[a-zA-Z0-9_-]{5,30}$/).test(login) == false)) {
+	((/^[a-zA-Z0-9_-]{5,20}$/).test(login) == false)) {
 		msg.style.display = "block";
 		msg.innerHTML += "Invalid username.<br/>";
 	}
@@ -116,9 +118,10 @@ function	resetpass_validate() {
 				if (msg.innerHTML !== "")
 					msg.style.display = "block";
 				else {
+					reset_forms_inputs();
 					put_login_form();
 					var validation_msg = document.getElementById("main_msg");
-					validation_msg.innerHTML = "Your password has been reset successfully. An email was sent to "+ email + " with the new one.<br/>";
+					validation_msg.innerHTML = "Your password has been reset successfully. An email has been sent to you with the new one.<br/>";
 					validation_msg.style.display = "block";
 				}
 			}
