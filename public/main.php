@@ -1,5 +1,5 @@
 <main>
-	<h1>Welcome on Camagru !</h1>
+	<h1>Camagru</h1>
 	<h3 id="main_msg" style="display: none"></h3>
 	<div id="form1" class="forms">
 		<h2>Log in</h2>

@@ -23,13 +23,28 @@ window.addEventListener('load', function(ev) {
 });
 
 
-function get_resize_coef(src, dst) {
+window.addEventListener('resize', function(ev) {
 
-  var coef = 1.00;
-  while (((src.naturalWidth * coef) > (dst.width / 3)) ||
-        ((src.naturalHeight * coef) > (dst.height / 3)))
+  if (g_filter_set == 1) {
+    var src = streaming === true ? document.getElementById("video") :
+    document.getElementById("video_img");
+    clear_filter_display(src);
+  }
+});
+
+
+function get_drawing_sizes(src, dst) {
+
+  var x, y, width, height,
+      coef = 1,
+      sizes = [];
+  while (((width = (src.naturalWidth * coef)) > (dst.offsetWidth / 2.3)) ||
+        ((height = (src.naturalHeight * coef)) > (dst.offsetHeight / 2.3)))
     coef = coef - 0.02;
-  return (coef);
+  x = (dst.offsetWidth / 2) - (width / 2);
+  y = (dst.offsetHeight / 4) - (height / 4);
+  sizes.push(x, y, width, height);
+  return (sizes);
 }
 
 
@@ -39,23 +54,19 @@ function add_filter(filter) {
     return;
   }
   var draw = new Image(),
+      container = document.getElementById("cam_container"),
       filter_canvas = document.getElementById("filter_canvas"),
-      ctx = filter_canvas.getContext("2d");
+      ctx = filter_canvas.getContext("2d"),
       src = streaming === true ? document.getElementById("video") :
       document.getElementById("video_img"),
-      coef = get_resize_coef(filter, src);
+      sizes = get_drawing_sizes(filter, src);
 
-  ctx.clearRect(0, 0, filter_canvas.width, filter_canvas.height);
-  filter_canvas.setAttribute('width', src.width);
-  filter_canvas.setAttribute('height', src.height);
-  if (streaming === false)
-    filter_canvas.setAttribute("style", "left: " + ((646 - src.width) / 2 + 6) + "px");
-  else
-    filter_canvas.removeAttribute("style");
+  ctx.clearRect(0, 0, filter_canvas.offsetWidth, filter_canvas.offsetHeight);
+  filter_canvas.setAttribute('width', src.offsetWidth);
+  filter_canvas.setAttribute('height', src.offsetHeight);
   draw.src = filter.src;
   draw.onload = function () {
-    ctx.drawImage(draw, src.width / 3, src.height / 3,
-    filter.naturalWidth * coef, filter.naturalHeight * coef);
+    ctx.drawImage(draw, sizes[0], sizes[1], sizes[2], sizes[3]);
     document.getElementById("startbutton").removeAttribute("style");
     g_filter_set = 1;
   };
@@ -165,18 +176,22 @@ function delete_img(img) {
   function reload_cam() {
     var back2cam = document.getElementById("back2cam");
 
-    video.style.display = "inherit";
     video_img.style.display = "none";
     video_img.removeAttribute("src");
+    video.style.display = "initial";
     back2cam.style.display = "none";
     clear_filter_display(video);
-    video.play();
+    if (g_stream != false) {
+      video.play();
+      streaming = true;
+    }
   }
 
 
   function load_cam() {
 
-  streaming = false;
+  streaming = false,
+  g_stream = false;
   var video = document.querySelector('#video'),
       cover = document.querySelector('#cover'),
       container = document.querySelector('#photos_container'),
@@ -186,9 +201,6 @@ function delete_img(img) {
       filter_canvas = document.querySelector('#filter_canvas'),
       g_width = 640,
       g_height = 480;
-
-  canvas.setAttribute("width", g_width);
-  canvas.setAttribute("height", g_height);
 
   navigator.getMedia = ( navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
@@ -201,6 +213,7 @@ function delete_img(img) {
       audio: false
     },
     function(stream) {
+      g_stream = stream;
       if (navigator.mozGetUserMedia) {
         video.mozSrcObject = stream;
       } else {
@@ -224,11 +237,11 @@ function delete_img(img) {
   video.addEventListener('canplay', function(ev) {
 
     if (!streaming) {
-      g_height = video.videoHeight / (video.videoWidth/g_width);
       video.setAttribute('width', g_width);
       video.setAttribute('height', g_height);
-      filter_canvas.setAttribute('width', g_width);
-      filter_canvas.setAttribute('height', g_height);
+      video.style.display = "initial";
+      filter_canvas.setAttribute('width', video.offsetWidth);
+      filter_canvas.setAttribute('height', video.offsetHeight);
       streaming = true;
       back2cam.style.display = "none";
     }
@@ -236,10 +249,8 @@ function delete_img(img) {
 
   function takephoto(canvas) {
 
-    var img,
-        video_img = document.getElementById("video_img");
-    canvas.getContext('2d').drawImage(video, 0, 0, g_width, g_height);
-    img = canvas.toDataURL('image/png');
+    canvas.getContext('2d').drawImage(video, 0, 0, video.offsetWidth, video.offsetHeight);
+    var img = canvas.toDataURL('image/png');
     return (img);
   }
 
@@ -282,8 +293,10 @@ function delete_img(img) {
     if (photo_default !== null)
       photo_default.parentNode.removeChild(photo_default);
     if (streaming === true) {
+      canvas.setAttribute("width", filter_canvas.offsetWidth);
+      canvas.setAttribute("height", filter_canvas.offsetHeight);
       img = takephoto(canvas);
-      canvas.getContext("2d").clearRect(0, 0, g_width, g_height);
+      canvas.getContext("2d").clearRect(0, 0, filter_canvas.offsetWidth, filter_canvas.offsetHeight);
     }
     else
       img = document.getElementById("video_img").src;
