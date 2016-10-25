@@ -55,10 +55,9 @@ function	register_validate() {
 	if (login_elem.validity.RangeUnderflow || login_elem.validity.RangeOverflow ||
 	((/^[a-zA-Z0-9_-]{5,20}$/).test(login) == false))
 		msg.innerHTML += "Username must contains at least 5 characters. Allowed characters : a-z, A-Z, 0-9, '-' and '_'.<br/>";
-	if (passwd1_elem.validity.RangeUnderflow || passwd1_elem.validity.RangeOverflow)
-	 	msg.innerHTML += "Password must contains between 8 and 20 characters.<br/>";
-	if (((/^[a-zA-Z0-9!@#$%^&*]{8,20}$/).test(passwd1) == false))
-		msg.innerHTML += "Invalid password, special characters allowed are [!@#$%^&*].<br/>";
+	if (passwd1_elem.validity.RangeUnderflow || passwd1_elem.validity.RangeOverflow ||
+	((/^[a-zA-Z0-9!@#$%^&*]{8,20}$/).test(passwd1) == false))
+	 	msg.innerHTML += "Password must contains between 8 and 20 characters, special characters allowed are [!@#$%^&*].<br/>";
 	if (passwd1.indexOf(login) !== -1)
 		msg.innerHTML += "Password must not contains your username.<br/>";
 	if (passwd1 !== passwd2)
